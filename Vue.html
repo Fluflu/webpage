@@ -1,0 +1,52 @@
+
+
+<!DOCTYPE html>
+
+<html>
+	<head>
+
+		<title>Requêtes travaux</title>
+		<meta charset="uft-8" />
+        <link rel="stylesheet" type="text/css" href="vue.css">
+
+	</head>
+
+	<body>
+
+        <div class="form">
+        <h1><p>Personnes concernés</p></h1>
+        </div>
+
+        <form action="App.php" method="GET">
+                        Nom de l'employe: <input type="text" name="fname" value="nom"><br>
+                        <input type="submit" value="Ajouter" name="add_user" class="b1">
+                        <input type="submit" value="Supprimer" name="delete_user" class="b2">
+                        <input type="submit" value="Supprimer tout" name="delete_all_user" class="b3">
+
+                 <table name="toto2">
+                        <tr>
+
+                            <td class="ref">Identifiant </td>
+                            <td class="ref">Durée de réunion</td>
+
+                        </tr>
+
+                </table>  
+         </form> 
+
+
+        <div class="form">
+             <h1><p>Créneaux de rendez-vous</p></h1>
+        </div>
+                 <table name="toto">
+                        <tr>
+
+                            <td class="ref">Date</td>
+                            <td class="ref">Heures</td>
+
+                        </tr>
+
+                </table>   
+         </form>
+	</body>
+</html>
