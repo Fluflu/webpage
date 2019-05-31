@@ -51,8 +51,7 @@
                  <table name="toto2">
                         <tr>
 
-                            <td class="ref">Identifiant</td>
-                            <td class="ref">Durée de réunion</td>
+                            <th class="ref">Identifiant</th>
 
                         </tr>
                   <?php
@@ -103,9 +102,8 @@
                                 
                               // ont peut utiliser un tableau 2D pour augmenter le nombre de ligne et faire un var_export mais un foreach est important pour l'ajout
                               // des valeurs indÃ©pendamment de l'array provenant du var_export qui affiche diffÃ©rement le tableau. Ceci Ã©vite d'ajouter des affichage inutiles en plus de la ligne ajoutÃ©
-                                  $v1 = '<td><input type="checkbox" name="check2[]" value='.$key_user.'>'.$nomValue.'</td>';
-                                  $v2 = '<td>'.$duree.'</td>';
-                                  $value = '<tr>'.$v1.''.$v2.'</tr>';
+                                  $v1 = '<td class="tab1"><input type="checkbox" name="check2[]" value='.$key_user.'>'.$nomValue.'</td>';
+                                  $value = '<tr class="tab1">'.$v1.'</tr>';
 
                                   echo $value;
 
@@ -122,8 +120,8 @@
 
                  <table name="toto">
                         <tr>
-                            <td class="ref">Date</td>
-                            <td class="ref">Heures</td>
+                            <th class="ref2">Date</th>
+                            <th class="ref2">Heures</th>
                         </tr>
 
                    <?php 
@@ -197,8 +195,8 @@
                                     if(isset($busy_hours[$j]) && $busy_hours[$j] == FALSE) {
                                             $heure = $heure_min + $j;
 
-                                            $value1 = '<td>'.$date.'</td>';
-                                            $value2 = '<td>'.str_pad($heure,2,'0', STR_PAD_LEFT).':00 </td>';
+                                            $value1 = '<td class="tab2"><input type="checkbox" name="check3[]" value="select_hour">'.$date.'</td>';
+                                            $value2 = '<td class="tab2">'.str_pad($heure,2,'0', STR_PAD_LEFT).':00 </td>';
                                             $value = '<tr>'. $value1 .''. $value2.'</tr>'; 
 
                                             echo $value; 
