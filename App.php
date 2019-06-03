@@ -112,11 +112,12 @@
                     ?>
 
                 </table> 
-            </form>   
 
                   <div class="form">
                        <h1>Creneaux de rendez-vous</h1>
                   </div>
+
+                  <input type="submit" value="Envoyer mail" name="mail" class="b4"><br>
 
                  <table name="toto">
                         <tr>
@@ -203,6 +204,30 @@
                                         }
                                   }
                             }
+
+                                if(isset($_GET['check3'])) {
+
+                                          $to = "fabien.larby@hotmail.fr";
+                                          $subject = 'le sujet';
+                                          $message = 'Utilisateur, vous avez sélectionner des rendez vous';
+                                          $headers = 'From: fabien.larby@hotmail.fr Reply-To: fabien.larby@hotmail.fr X-Mailer: PHP/' . phpversion();
+
+
+                                          mail($to, $subject, $message, $headers);
+
+                                }
+
+                                // retirer un employÃ©
+                                if(isset($_GET['mail']) && (isset($_GET['check3']))) {
+
+                                          $to = "fabien.larby@hotmail.fr";
+                                          $subject = 'le sujet';
+                                          $message = 'Utilisateur, vous avez sélectionner des rendez vous';
+                                          $headers = 'From: fabien.larby@hotmail.fr Reply-To: fabien.larby@hotmail.fr X-Mailer: PHP/' . phpversion();
+
+                                          mail($to, $subject, $message, $headers);
+
+                                }
 
                       ?>
 

@@ -82,7 +82,7 @@ tr  /* Mettre une bordure sur les td ET les th */
 } 
 */
 
-.b1, .b2, .b3 {
+.b1, .b2, .b3, .b4 {
         border-radius: 4px;
         /**
         animation-name: example;
