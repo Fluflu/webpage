@@ -1,4 +1,10 @@
+body {
 
+    font-family: Arial, Verdana, sans-serif;
+    font-size: 11px;
+    color: #333;
+    
+}
 
 table
 
@@ -9,11 +15,10 @@ table
 
 }
 
-td
+td, th
 {
 	width:190px;
 	height:40px;
-    border: 1px solid black;
 
 }
 
@@ -34,8 +39,6 @@ tr  /* Mettre une bordure sur les td ET les th */
 /* TH */
 .ref 
 {   
-    width:190px;
-    height:40px;
     background-color: #727780;
     color: #FFFFFF; 
     font-family: verdana;
@@ -44,8 +47,6 @@ tr  /* Mettre une bordure sur les td ET les th */
 }
 .ref2
 {   
-    width:190px;
-    height:40px;
     background-color: #00326E;
     color: #FFFFFF; 
     font-family: verdana;
@@ -57,8 +58,6 @@ tr  /* Mettre une bordure sur les td ET les th */
 
 .tab1 
 {   
-    width:170px;
-    height:40px;
     border: 1px #777 solid;
     background-color: white;
     color: #333333; 
@@ -68,8 +67,6 @@ tr  /* Mettre une bordure sur les td ET les th */
 }
 .tab2
 {   
-    width:170px;
-    height:40px;
     border: 1px #FFF solid;
     background-color: #D5DCEA;
     color: #333333;   
@@ -101,13 +98,11 @@ tr  /* Mettre une bordure sur les td ET les th */
 }
 
 td, th {
-
-
-        margin-left: 6px;    
-        margin-right: 6px;    
-        margin-top: 4px;    
-        margin-bottom: 4px;    
-
+    
+        padding-left: 6px;    
+        padding-right: 6px;    
+        padding-top: 4px;    
+        padding-bottom: 4px;    
 
 }
 

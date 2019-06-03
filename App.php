@@ -18,7 +18,7 @@
     <body>
 
         <div class="form">
-        <h1><p>Personnes concernes</p></h1>
+        <h1>Personnes concernes</h1>
         </div>
 
         <form action="App.php" method="GET">
@@ -115,7 +115,7 @@
             </form>   
 
                   <div class="form">
-                       <h1><p>Creneaux de rendez-vous</p></h1>
+                       <h1>Creneaux de rendez-vous</h1>
                   </div>
 
                  <table name="toto">
