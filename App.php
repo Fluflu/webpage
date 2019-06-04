@@ -205,25 +205,40 @@
                                   }
                             }
 
-                                if(isset($_GET['check3'])) {
+                                if(isset($_GET['mail'])) {
 
-                                          $to = "fabien.larby@hotmail.fr";
-                                          $subject = 'le sujet';
-                                          $message = 'Utilisateur, vous avez sélectionner des rendez vous';
-                                          $headers = 'From: fabien.larby@hotmail.fr Reply-To: fabien.larby@hotmail.fr X-Mailer: PHP/' . phpversion();
+                                          ini_set("SMTP", "smtp.univ-paris1.fr");
+                                          ini_set("sendmail_from","fabien.larby@univ-paris1.fr");
 
+                                          $to = "fabien.larby@univ-paris1.fr";
+                                          $subject = 'Invitation';
+                                          $message = 'Bonjour, vous avez reçu une invitation';
+                                          $headers = array(
+                                              'From' => 'fabien.larby@univ-paris1.fr',
+                                              'Reply-To' => 'fabien.larby@u-psud.com',
+                                              'X-Mailer' => 'PHP/' . phpversion()
+                                          );
 
                                           mail($to, $subject, $message, $headers);
+
+                                          echo "Aucun utilisateur sélectionné!";
 
                                 }
 
                                 // retirer un employÃ©
                                 if(isset($_GET['mail']) && (isset($_GET['check3']))) {
 
-                                          $to = "fabien.larby@hotmail.fr";
-                                          $subject = 'le sujet';
-                                          $message = 'Utilisateur, vous avez sélectionner des rendez vous';
-                                          $headers = 'From: fabien.larby@hotmail.fr Reply-To: fabien.larby@hotmail.fr X-Mailer: PHP/' . phpversion();
+                                          ini_set("SMTP", "smtp.univ-paris1.fr");
+                                          ini_set("sendmail_from","fabien.larby@univ-paris1.fr");
+
+                                          $to = "fabien.larby@univ-paris1.fr";
+                                          $subject = 'Invitation';
+                                          $message = 'Bonjour, vous avez reçu une invitation';
+                                          $headers = array(
+                                              'From' => 'fabien.larby@univ-paris1.fr',
+                                              'Reply-To' => 'fabien.larby@u-psud.com',
+                                              'X-Mailer' => 'PHP/' . phpversion()
+                                          );
 
                                           mail($to, $subject, $message, $headers);
 
