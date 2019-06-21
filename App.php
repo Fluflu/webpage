@@ -11,7 +11,7 @@
 
         <title>Requetes travaux</title>
         <meta charset="uft-8" />
-        <link rel="stylesheet" type="text/css" href="vue.css">
+        <link rel="stylesheet" type="text/css" href="Vue.css">
 
     </head>
 
@@ -25,7 +25,9 @@
                           Identifiant: <input type="text" name="fname" value="nom"><br>
                           <input type="submit" value="Ajouter" name="add_user" class="b1">
                           <input type="submit" value="Supprimer" name="delete_user" class="b2">
-                          <input type="submit" value="Supprimer tout" name="delete_all_user" class="b3">
+                          <input type="submit" value="Supprimer tout" name="delete_all_user" class="b3"><br>
+                          Durée du créneau: <input type="text" name="duree" value="duree"><br>
+                          <input type="submit" value="Calculer le creneau" name="time" class="b1">
 
                   <?php
                   
@@ -87,13 +89,12 @@
                                 if(isset($_GET['add_user'])) {
 
                                 $_SESSION['add_user'][] = $nomValue;
-                                // additionner les heures et les minutes avec la fonction automatique strtotime
+                                // additionner les hourss et les minutes avec la fonction automatique strtotime
 
                                 }
                     // La condition de synchronisation s'arrÃªte lÃ  car si ont utilise l'autre formulaire 2 et que les tableau sont Ã  l'intÃ©rieur
                     // le formulaire 1 n'affichera pas les donnÃ©es de sont tableau
                     }
-                    
 
 
                         /// affichage des lignes dans la session principale pour le voir aprÃ¨s avoir cliquer sur un des boutons
@@ -154,9 +155,10 @@
                                   }
                               }
 
-                            $heure_min = 8;
-                        
-                            $busy_hours_init = [ FALSE , FALSE , FALSE , FALSE , FALSE , FALSE , FALSE , FALSE , FALSE , FALSE ];
+
+                            $hour_min = 8;
+                            $busy_hours_init = [ FALSE , FALSE , FALSE , FALSE , FALSE , FALSE , FALSE , FALSE , FALSE , FALSE,FALSE , FALSE , FALSE , FALSE , FALSE , FALSE , FALSE , FALSE , FALSE , FALSE ];
+
                             $busy_days= [];
 
                             
@@ -168,41 +170,76 @@
                                     $data = explode("/", $busy_intervalles[$i]);
 
 
-                                    $date_heure_debut = strtotime($data[0]);
-                                    $date_heure_fin = strtotime($data[1]);
-                                    $heure_debut = strftime("%H", $date_heure_debut);
-                                    $heure_fin = strftime("%H", $date_heure_fin);
+                                    $debut = strtotime($data[0]);
+                                    $fin = strtotime($data[1]);
+                                    $heure_debut = strftime("%H", $debut);
+                                    $heure_fin = strftime("%H", $fin);
 
-                                    $date_debut = strftime("%A %e %B %G", $date_heure_debut);
+                                    $min_debut = strftime("%M", $debut);
+                                    $min_fin = strftime("%M", $fin);
+
+                                    $date_debut = strftime("%A %e %B %G", $debut);
 
                                     if(!isset($busy_days[$date_debut]) ) {
                                             $busy_days[$date_debut] = $busy_hours_init;
                                     }
 
                                     $busy_hours = &$busy_days[$date_debut]; // pas de copie du tableau
-                                    $heure = $heure_debut;
+                                    $hour = $heure_debut;
 
-                                        while($heure < $heure_fin) {
-                                            $busy_hours[$heure - $heure_min] = TRUE;
-                                            $heure++;
+                                    if ($min_debut >= 30) {
+                                          $hour+=0.5;
+                                    }
+
+                                    $heure_min_fin = $heure_fin;
+
+                                    if ( $min_fin >= 30 ) {
+
+                                        $heure_min_fin += 0.5;
+
+                                    }
+
+                                        while($hour < $heure_min_fin) {
+                                            $index = $hour - $hour_min;
+                                            $busy_hours[$index*2] = TRUE;
+                                            $hour+=0.5;
                                         }
 
                             }
 
                             foreach ( $busy_days as $date => $busy_hours ) {
 
-                                for ( $j = 0; $j < sizeof($busy_hours); $j++ ) {
+
+                              $heure_debut = 0;
+                              
+                                for ( $j = 0; $j < sizeof($busy_hours)-1; $j++ ) {
 
                                     if(isset($busy_hours[$j]) && $busy_hours[$j] == FALSE) {
-                                            $heure = $heure_min + $j;
 
-                                            $value1 = '<td class="tab2"><input type="checkbox" name="check3[]" value="select_hour">'.$date.'</td>';
-                                            $value2 = '<td class="tab2">'.str_pad($heure,2,'0', STR_PAD_LEFT).':00 </td>';
-                                            $value = '<tr>'. $value1 .''. $value2.'</tr>'; 
+                                          if(!($heure_debut)) {
 
-                                            echo $value; 
-                                        }
-                                  }
+                                                $heure_debut = $hour_min + $j*0.5;
+
+                                          }
+                                                $heure_fin = $hour_min + ($j+1)*0.5;
+                                    }
+                                    else {
+
+                                          if($heure_debut) {
+
+                                                affichageCreneau($date, $heure_debut, $heure_fin, $duree);
+                                                $heure_debut = 0;
+
+                                          }
+
+                                    }
+                                }
+                                if($heure_debut) {
+
+                                      affichageCreneau($date, $heure_debut, $heure_fin, $duree);
+                                      $heure_debut = 0;
+
+                                }
                             }
 
                                 if(isset($_GET['mail'])) {
@@ -212,7 +249,7 @@
 
                                           $to = $nomValue."@univ-paris1.fr";
                                           $subject = 'Invitation';
-                                          $message = 'Bonjour, vous avez recu une invitation';
+                                          $message = 'Bonjour, vous avez reçu aucune invitation';
                                           $headers = array(
                                               'From' => $nomValue.'@univ-paris1.fr',
                                               'X-Mailer' => 'PHP/' . phpversion()
@@ -224,9 +261,6 @@
 
                                 }
 
-                                /*
-
-                                // retirer un employÃ©
                                 if(isset($_GET['mail']) && (isset($_GET['check3']))) {
 
                                           ini_set("SMTP", "smtp.univ-paris1.fr");
@@ -234,7 +268,7 @@
 
                                           $to = $nomValue."@univ-paris1.fr";
                                           $subject = 'Invitation';
-                                          $message = 'Bonjour, vous avez reçu une invitation';
+                                          $message = 'Bonjour, vous avez reçu une invitation à'.$value2.' le '.$value1.'Pour une durée de'.$duree.' heures';
                                           $headers = array(
                                               'From' => $nomValue.'@univ-paris1.fr',
                                               'X-Mailer' => 'PHP/' . phpversion()
@@ -242,7 +276,28 @@
 
                                           mail($to, $subject, $message, $headers);
 
-                                } */
+                                }
+
+                                function formatHeure($heure) {
+
+                                  $value2 = floor($heure).':'.str_pad((fmod($heure, 1)*60),2,'0', STR_PAD_LEFT);
+                                  return $value2;
+
+                                }
+
+                                function affichageCreneau($date, $heure_debut, $heure_fin, $takentime) {
+
+                                            if( $takentime < $heure_fin-$heure_debut ) {
+
+                                                $value1 = '<td class="tab2"><input type="checkbox" name="check3[]" value="select_hour">'.$date.'</td>';
+                                                $value2 = '<td class="tab2">'.formatheure($heure_debut).' - '.formatheure($heure_fin).'</td>';    
+                                                $value = '<tr>'. $value1 .''. $value2.'</tr>'; 
+
+                                                echo $value; 
+
+                                              }
+
+                                }
 
                       ?>
 
