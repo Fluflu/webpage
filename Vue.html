@@ -18,10 +18,23 @@
         </div>
 
         <form action="App.php" method="GET">
-                        Identifiant: <input type="text" name="fname" value="nom"><br>
-                        <input type="submit" value="Ajouter" name="add_user" class="b1">
-                        <input type="submit" value="Supprimer" name="delete_user" class="b2">
-                        <input type="submit" value="Supprimer tout" name="delete_all_user" class="b3">
+                          Identifiant:
+                              <script src="https://wsgroups.univ-paris1.fr/web-widget/autocompleteUser-resources.html.js"></script>
+
+                          <input id="person" name="fname" placeholder="Nom et Prenom" />
+
+                              <script>
+                                   $( "#person" ).autocompleteUser(
+                                      'https://wsgroups.univ-paris1.fr/searchUser', {}
+                                   );
+                              </script>
+                          <br>
+
+                          <input type="submit" value="Ajouter" name="add_user" class="b1">
+                          <input type="submit" value="Supprimer" name="delete_user" class="b2">
+                          <input type="submit" value="Supprimer tout" name="delete_all_user" class="b3"><br>
+                          Duree du creneau: <input type="text" name="duree" value=""><br>
+                          <input type="submit" value="Calculer le creneau" name="time" class="b1">
 
                  <table name="toto2">
                         <tr>

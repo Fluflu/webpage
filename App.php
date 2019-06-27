@@ -22,24 +22,35 @@
         </div>
 
         <form action="App.php" method="GET">
-                          Identifiant: <input type="text" name="fname" value="nom"><br>
+                          Identifiant:
+                          <script src="https://wsgroups.univ-paris1.fr/web-widget/autocompleteUser-resources.html.js"></script>
+
+                          <input id="person" name="fname" placeholder="Nom et Prenom" />
+
+                          <script>
+                           $( "#person" ).autocompleteUser(
+                              'https://wsgroups.univ-paris1.fr/searchUser', {}
+                           );
+                          </script>
+                          <br>
+
                           <input type="submit" value="Ajouter" name="add_user" class="b1">
                           <input type="submit" value="Supprimer" name="delete_user" class="b2">
-                          <input type="submit" value="Supprimer tout" name="delete_all_user" class="b3"><br>
-                          Durée du créneau: <input type="text" name="duree" value="duree"><br>
+                          <input type="submit" value="Supprimer tout" name="delete_all_user" class="b3"><br><br>
+                          Durée du créneau: <input type="text" name="duree" value=""><br>
                           <input type="submit" value="Calculer le creneau" name="time" class="b1">
 
                   <?php
                   
                     if(isset($_GET['fname'])) {
                         
-                    $nomValue = $_GET['fname'];
+                      $nomValue = $_GET['fname'];
                     
                     }
 
                     if(isset($_GET['duree'])) {
                         
-                    $duree = $_GET['duree'];
+                      $duree = $_GET['duree'];
                     
                     }
                     else {
@@ -47,6 +58,9 @@
                       $duree = 1;
 
                     }
+
+                    $v2 = '<table><tr class="ref"><td> durée de créneau: '.$duree.'</td></tr></table>';
+                    echo $v2;
                     
                     ?>
 
@@ -108,7 +122,7 @@
 
                                   echo $value;
 
-                    }
+                    }    
 
                     ?>
 
@@ -160,7 +174,6 @@
                             $busy_hours_init = [ FALSE , FALSE , FALSE , FALSE , FALSE , FALSE , FALSE , FALSE , FALSE , FALSE,FALSE , FALSE , FALSE , FALSE , FALSE , FALSE , FALSE , FALSE , FALSE , FALSE ];
 
                             $busy_days= [];
-
                             
                             /// extraction de l'horaire
                             
@@ -210,9 +223,13 @@
                             foreach ( $busy_days as $date => $busy_hours ) {
 
 
+                              if (!($duree) ) {
+                                 $duree = 1;
+                              }
+
                               $heure_debut = 0;
                               
-                                for ( $j = 0; $j < sizeof($busy_hours)-1; $j++ ) {
+                                for ( $j = 0; $j < sizeof($busy_hours)-2; $j++ ) {
 
                                     if(isset($busy_hours[$j]) && $busy_hours[$j] == FALSE) {
 
@@ -221,25 +238,25 @@
                                                 $heure_debut = $hour_min + $j*0.5;
 
                                           }
-                                                $heure_fin = $hour_min + ($j+1)*0.5;
-                                    }
-                                    else {
+                                          $heure_fin = $hour_min + ($j+1)*0.5;
 
-                                          if($heure_debut) {
+                                          if($heure_debut && $heure_debut+$duree == $heure_fin) {
 
                                                 affichageCreneau($date, $heure_debut, $heure_fin, $duree);
                                                 $heure_debut = 0;
-
                                           }
-
                                     }
                                 }
-                                if($heure_debut) {
+                                
+                                /*
 
-                                      affichageCreneau($date, $heure_debut, $heure_fin, $duree);
-                                      $heure_debut = 0;
+                                if($heure_debut && $heure_debut+$duree == $heure_fin) {
 
-                                }
+                                        affichageCreneau($date, $heure_debut, $heure_fin, $duree);
+                                        $heure_debut = 0;
+                                }   
+
+                                */
                             }
 
                                 if(isset($_GET['mail'])) {
@@ -285,9 +302,9 @@
 
                                 }
 
-                                function affichageCreneau($date, $heure_debut, $heure_fin, $takentime) {
+                                function affichageCreneau($date, $heure_debut, $heure_fin) {
 
-                                            if( $takentime < $heure_fin-$heure_debut ) {
+                                            /// $heure_fin = $heure_debut+$takentime;
 
                                                 $value1 = '<td class="tab2"><input type="checkbox" name="check3[]" value="select_hour">'.$date.'</td>';
                                                 $value2 = '<td class="tab2">'.formatheure($heure_debut).' - '.formatheure($heure_fin).'</td>';    
@@ -295,11 +312,9 @@
 
                                                 echo $value; 
 
-                                              }
-
                                 }
 
-                      ?>
+                      ?> 
 
                 </table> 
             </form>   
