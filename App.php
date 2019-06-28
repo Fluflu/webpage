@@ -171,9 +171,21 @@
 
 
                             $hour_min = 8;
-                            $busy_hours_init = [ FALSE , FALSE , FALSE , FALSE , FALSE , FALSE , FALSE , FALSE , FALSE , FALSE,FALSE , FALSE , FALSE , FALSE , FALSE , FALSE , FALSE , FALSE , FALSE , FALSE ];
+                            $hour_max = 17;
+                            $precision = 0.5;
+
+                            $busy_hours_init = [];
+
+                            for ( $i=0 ; $i < ($hour_max-$hour_min)/$precision; $i++ ) {
+
+                                      $busy_hours_init[] = FALSE;
+
+                            }
 
                             $busy_days= [];
+
+                            $heure_repas_debut = 12;
+                            $heure_repas_fin = 14;
                             
                             /// extraction de l'horaire
                             
@@ -201,21 +213,21 @@
                                     $hour = $heure_debut;
 
                                     if ($min_debut >= 30) {
-                                          $hour+=0.5;
+                                          $hour+=$precision;
                                     }
 
                                     $heure_min_fin = $heure_fin;
 
                                     if ( $min_fin >= 30 ) {
 
-                                        $heure_min_fin += 0.5;
+                                        $heure_min_fin += $precision;
 
                                     }
 
                                         while($hour < $heure_min_fin) {
                                             $index = $hour - $hour_min;
-                                            $busy_hours[$index*2] = TRUE;
-                                            $hour+=0.5;
+                                            $busy_hours[$index/$precision] = TRUE;
+                                            $hour+=$precision;
                                         }
 
                             }
@@ -229,16 +241,22 @@
 
                               $heure_debut = 0;
                               
-                                for ( $j = 0; $j < sizeof($busy_hours)-2; $j++ ) {
+                                for ( $j = 0; $j < sizeof($busy_hours); $j++ ) {
 
                                     if(isset($busy_hours[$j]) && $busy_hours[$j] == FALSE) {
 
                                           if(!($heure_debut)) {
 
-                                                $heure_debut = $hour_min + $j*0.5;
+                                                $heure_debut = $hour_min + $j*$precision;
 
                                           }
-                                          $heure_fin = $hour_min + ($j+1)*0.5;
+                                          $heure_fin = $hour_min + ($j+1)*$precision;
+
+                                          if($heure_debut > $heure_repas_debut && $heure_debut < $heure_repas_fin || $heure_fin > $heure_repas_debut && $heure_fin < $heure_repas_fin ) {
+
+                                                $heure_debut = 0;
+
+                                          }
 
                                           if($heure_debut && $heure_debut+$duree == $heure_fin) {
 
@@ -247,16 +265,6 @@
                                           }
                                     }
                                 }
-                                
-                                /*
-
-                                if($heure_debut && $heure_debut+$duree == $heure_fin) {
-
-                                        affichageCreneau($date, $heure_debut, $heure_fin, $duree);
-                                        $heure_debut = 0;
-                                }   
-
-                                */
                             }
 
                                 if(isset($_GET['mail'])) {
